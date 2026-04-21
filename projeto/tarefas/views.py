@@ -4,7 +4,13 @@ from .models import Tarefa
 
 def listar_tarefas(request):
     tarefas = Tarefa.objects.all().values()
+    return JsonResponse(list(tarefas), safe=False)
 
+def listar_tarefas(request):
+    tarefas = Tarefa.objects.all().values(
+        'id', 'titulo', 'descricao', 'data_criacao',
+        'usuario__username'
+    )
     return JsonResponse(list(tarefas), safe=False)
 
 def listar_tarefas_por_prioridade(request, prioridade):
